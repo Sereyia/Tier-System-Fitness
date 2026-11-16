@@ -1,0 +1,43 @@
+/* Theme: single dark theme. Values mirror js/engine/theme.js (checked by tests/theme.test.js). */
+:root {
+  --bg: #2B2B30;
+  --card: #333339;
+  --card-border: #5A5A63;
+  --text: #F4F3EF;
+  --text-2: #C9C8C2;
+  --label: #B8B7B0;
+  --field-border: #C9C8C2;
+  --white: #FFFFFF;
+  --orange: #AD5700;
+  --orange-border: #EF9F27;
+  --green: #2E7D32;
+  --green-border: #97C459;
+  --green-saved: #3B8C1F;
+  --red: #C62828;
+  --red-border: #F09595;
+  --selected-text: #9A4A00;
+  --target: #FACC15;
+  --tier-p: #B4B2A9;
+  --tier-t1: #7F77DD;
+  --tier-t2: #378ADD;
+  --tier-t3: #5F7A99;
+  --tier-f: #888780;
+  --tier-band-height: 6px;
+
+  --scale: 1;
+  --radius: 14px;
+  --gap: 8px;
+  --fs-todo: calc(30px * var(--scale));
+  --fs-input: calc(26px * var(--scale));
+  --fs-input-big: calc(28px * var(--scale));
+  --fs-name: calc(19px * var(--scale));
+  --fs-body: calc(16px * var(--scale));
+  --fs-small: calc(14px * var(--scale));
+  --fs-label: calc(11px * var(--scale));
+  --btn-h: calc(48px * var(--scale));
+  --btn-done-h: calc(52px * var(--scale));
+}
+
+html.large-text {
+  --scale: 1.3;
+}

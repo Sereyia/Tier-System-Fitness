@@ -1,0 +1,320 @@
+// Seed data loaded at first launch: exercise library and default program.
+// No personal data here: the app is shared between friends.
+
+export const MUSCLES = {
+  quads: 'Quadriceps',
+  hamstrings: 'Ischio-jambiers',
+  glutes: 'Fessiers',
+  adductors: 'Adducteurs',
+  calves: 'Mollets',
+  chest: 'Pectoraux',
+  lats: 'Grand dorsal',
+  upper_back: 'Haut du dos',
+  front_delts: 'Épaules (avant)',
+  side_delts: 'Épaules (côté)',
+  rear_delts: 'Épaules (arrière)',
+  biceps: 'Biceps',
+  triceps: 'Triceps',
+  forearms: 'Avant-bras et prise',
+  core: 'Abdominaux et gainage',
+  lower_back: 'Lombaires',
+};
+
+export const EQUIPMENT_LABELS = {
+  barbell: 'Barre',
+  dumbbell: 'Haltères',
+  machine: 'Machine',
+  cable: 'Poulie',
+  weighted_bodyweight: 'Poids du corps lesté',
+  bodyweight: 'Poids du corps',
+  kettlebell: 'Kettlebell',
+  medball: 'Médecine-ball',
+  none: 'Sans charge',
+};
+
+export const PATTERNS = [
+  'Legs bilateral',
+  'Legs unilateral',
+  'Legs postérieur',
+  'Push Horizontal',
+  'Push Vertical',
+  'Pull Horizontal',
+  'Pull Vertical',
+  'Assistance push',
+  'Assistance pull',
+  'Assistance legs',
+  'Puissance',
+  'Gainage',
+];
+
+function ex(id, name, patterns, equipment, direct, indirect, cue, extra = {}) {
+  return {
+    id,
+    name,
+    patterns,
+    equipment,
+    unit: 'reps',
+    perSide: false,
+    topSetEligible: false,
+    noE1rm: false,
+    calibrationSafe: false,
+    muscles: { direct, indirect },
+    cue,
+    notes: '',
+    restOverride: null,
+    custom: false,
+    ...extra,
+  };
+}
+
+export const SEED_EXERCISES = [
+  // Legs bilateral
+  ex('squat', 'Squat', ['Legs bilateral'], 'barbell', ['quads', 'glutes'], ['adductors', 'lower_back', 'core'],
+    'Barre sur le haut du dos, pieds largeur d’épaules. Descends en gardant le dos neutre et les genoux dans l’axe des pieds, puis remonte en poussant le sol.', { topSetEligible: true }),
+  ex('front_squat', 'Front squat', ['Legs bilateral'], 'barbell', ['quads', 'glutes'], ['core', 'upper_back'],
+    'Barre posée à l’avant des épaules, coudes hauts. Descends buste droit et remonte sans laisser tomber les coudes.'),
+  ex('hack_squat', 'Hack squat', ['Legs bilateral'], 'machine', ['quads', 'glutes'], ['adductors'],
+    'Dos collé au dossier, pieds à mi-hauteur de la plateforme. Descends en contrôle sur toute l’amplitude confortable, puis pousse sans verrouiller brutalement les genoux.'),
+  ex('leg_press', 'Presse à cuisses', ['Legs bilateral'], 'machine', ['quads', 'glutes'], ['adductors'],
+    'Bas du dos plaqué au dossier. Descends tant que le bassin ne décolle pas, puis pousse avec les pieds à plat.'),
+  ex('goblet_squat', 'Goblet squat', ['Legs bilateral'], 'dumbbell', ['quads', 'glutes'], ['core'],
+    'Haltère tenu contre la poitrine, coudes entre les genoux en bas. Descends buste droit et remonte en poussant le sol.'),
+  // Legs unilateral
+  ex('walking_lunge', 'Fente marchée', ['Legs unilateral'], 'dumbbell', ['quads', 'glutes'], ['adductors', 'core'],
+    'Grand pas en avant, genou arrière qui frôle le sol, buste droit. Pousse sur le talon avant pour enchaîner le pas suivant.', { perSide: true }),
+  ex('bulgarian_split_squat', 'Bulgarian split squat', ['Legs unilateral'], 'dumbbell', ['quads', 'glutes'], ['adductors', 'core'],
+    'Pied arrière posé sur un banc, pied avant assez loin devant. Descends à la verticale en gardant le genou avant dans l’axe, puis remonte.', { perSide: true }),
+  ex('reverse_lunge', 'Fente arrière', ['Legs unilateral'], 'dumbbell', ['quads', 'glutes'], ['adductors', 'core'],
+    'Recule une jambe et descends jusqu’à frôler le sol avec le genou arrière. Remonte en poussant sur le pied avant.', { perSide: true }),
+  ex('step_up', 'Step-up', ['Legs unilateral'], 'dumbbell', ['quads', 'glutes'], ['core'],
+    'Pied entier sur la box, monte en poussant sur la jambe avant sans t’aider de la jambe arrière. Redescends en contrôle.', { perSide: true }),
+  // Legs posterior
+  ex('romanian_deadlift', 'Romanian deadlift', ['Legs postérieur'], 'barbell', ['hamstrings', 'glutes'], ['lower_back', 'forearms'],
+    'Genoux légèrement fléchis, pousse les hanches vers l’arrière en gardant le dos neutre et la barre près des jambes. Remonte en serrant les fessiers.'),
+  ex('trap_bar_deadlift', 'Trap bar deadlift', ['Legs postérieur'], 'barbell', ['glutes', 'quads', 'hamstrings'], ['lower_back', 'forearms', 'upper_back'],
+    'Au centre de la barre hexagonale, dos neutre et bras tendus. Pousse le sol et termine debout, hanches et genoux tendus ensemble.'),
+  ex('hip_thrust', 'Hip thrust', ['Legs postérieur'], 'barbell', ['glutes'], ['hamstrings'],
+    'Haut du dos sur un banc, barre sur les hanches. Monte jusqu’à l’alignement épaules-hanches-genoux en serrant les fessiers, sans cambrer.'),
+  ex('leg_curl', 'Leg curl', ['Legs postérieur'], 'machine', ['hamstrings'], ['calves'],
+    'Hanches bien calées sur la machine. Fléchis les genoux sur toute l’amplitude et contrôle le retour.', { calibrationSafe: true }),
+  ex('nordic_curl', 'Nordic curl', ['Legs postérieur'], 'bodyweight', ['hamstrings'], ['glutes'],
+    'Chevilles bloquées, corps droit des genoux aux épaules. Descends le plus lentement possible, puis aide-toi des mains pour remonter.', { noE1rm: true }),
+  ex('good_morning', 'Good morning', ['Legs postérieur'], 'barbell', ['hamstrings', 'glutes'], ['lower_back'],
+    'Barre sur le haut du dos, genoux légèrement fléchis. Penche le buste en poussant les hanches en arrière, dos neutre, puis remonte.'),
+  // Push horizontal
+  ex('bench', 'Bench', ['Push Horizontal'], 'barbell', ['chest'], ['triceps', 'front_delts'],
+    'Omoplates serrées, pieds au sol. Descends la barre en contrôle jusqu’au bas des pectoraux, puis pousse en gardant les poignets au-dessus des coudes.', { topSetEligible: true }),
+  ex('db_bench', 'Développé couché haltères', ['Push Horizontal'], 'dumbbell', ['chest'], ['triceps', 'front_delts'],
+    'Omoplates serrées sur le banc. Descends les haltères sur les côtés de la poitrine, coudes légèrement rentrés, puis pousse.'),
+  ex('incline_bench_barbell', 'Développé incliné barre', ['Push Horizontal'], 'barbell', ['chest', 'front_delts'], ['triceps'],
+    'Banc incliné modérément, omoplates serrées. Descends la barre sur le haut des pectoraux et pousse en contrôle.'),
+  ex('incline_bench_db', 'Développé incliné haltères', ['Push Horizontal'], 'dumbbell', ['chest', 'front_delts'], ['triceps'],
+    'Banc incliné modérément, omoplates serrées. Descends les haltères sur les côtés du haut de la poitrine, puis pousse.'),
+  ex('weighted_dips', 'Dips lestés', ['Push Horizontal'], 'weighted_bodyweight', ['chest', 'triceps'], ['front_delts'],
+    'Épaules basses, buste légèrement penché vers l’avant. Descends jusqu’à une amplitude confortable pour les épaules, puis pousse.'),
+  ex('chest_press_machine', 'Machine convergente', ['Push Horizontal'], 'machine', ['chest'], ['triceps', 'front_delts'],
+    'Dos collé au dossier, poignées à hauteur du milieu de la poitrine. Pousse en contrôle et reviens lentement.'),
+  // Push vertical
+  ex('overhead_press', 'Développé militaire', ['Push Vertical'], 'barbell', ['front_delts'], ['triceps', 'side_delts', 'core'],
+    'Debout, fessiers et abdos serrés. Pousse la barre au-dessus de la tête en passant près du visage, sans cambrer.', { topSetEligible: true }),
+  ex('seated_db_press', 'Développé assis haltères', ['Push Vertical'], 'dumbbell', ['front_delts'], ['triceps', 'side_delts'],
+    'Assis dos calé, haltères à hauteur des épaules. Pousse au-dessus de la tête et redescends en contrôle.'),
+  ex('landmine_press', 'Landmine press', ['Push Vertical'], 'barbell', ['front_delts'], ['chest', 'triceps', 'core'],
+    'Extrémité de la barre tenue à hauteur d’épaule. Pousse vers le haut et l’avant en gardant le buste gainé.'),
+  ex('shoulder_press_machine', 'Machine épaules', ['Push Vertical'], 'machine', ['front_delts'], ['triceps', 'side_delts'],
+    'Dos collé au dossier, poignées à hauteur des épaules. Pousse en contrôle et reviens lentement.'),
+  // Pull horizontal
+  ex('chest_supported_row', 'Rowing appui poitrine', ['Pull Horizontal'], 'barbell', ['upper_back', 'lats'], ['rear_delts', 'biceps'],
+    'Poitrine en appui, nuque neutre. Tire les coudes vers les hanches en serrant les omoplates, puis contrôle la descente.', { topSetEligible: true }),
+  ex('barbell_row', 'Rowing barre', ['Pull Horizontal'], 'barbell', ['upper_back', 'lats'], ['rear_delts', 'biceps', 'lower_back'],
+    'Buste penché, dos neutre, genoux fléchis. Tire la barre vers le bas du ventre et contrôle la descente.'),
+  ex('one_arm_db_row', 'Rowing bûcheron', ['Pull Horizontal'], 'dumbbell', ['lats', 'upper_back'], ['rear_delts', 'biceps'],
+    'Main et genou en appui sur un banc, dos plat. Tire l’haltère vers la hanche, puis contrôle la descente.', { perSide: true }),
+  ex('seated_cable_row', 'Tirage poulie basse', ['Pull Horizontal'], 'cable', ['upper_back', 'lats'], ['rear_delts', 'biceps'],
+    'Assis buste droit, pieds calés. Tire la poignée vers le ventre en serrant les omoplates, sans balancer le buste.'),
+  ex('australian_pull', 'Australian pull', ['Pull Horizontal'], 'bodyweight', ['upper_back', 'lats'], ['rear_delts', 'biceps', 'core'],
+    'Corps gainé sous une barre basse, talons au sol. Tire la poitrine vers la barre, puis redescends en contrôle.', { noE1rm: true }),
+  ex('seal_row', 'Seal row', ['Pull Horizontal'], 'barbell', ['upper_back', 'lats'], ['rear_delts', 'biceps'],
+    'Allongé à plat ventre sur un banc haut. Tire la barre vers le banc en serrant les omoplates, puis contrôle la descente.'),
+  // Pull vertical
+  ex('pull_up', 'Traction', ['Pull Vertical'], 'weighted_bodyweight', ['lats'], ['biceps', 'upper_back', 'forearms'],
+    'Prise pronation un peu plus large que les épaules. Tire jusqu’au menton au-dessus de la barre et redescends bras tendus.', { topSetEligible: true }),
+  ex('neutral_pull_up', 'Traction prise neutre', ['Pull Vertical'], 'weighted_bodyweight', ['lats'], ['biceps', 'upper_back', 'forearms'],
+    'Paumes face à face. Tire jusqu’au menton au-dessus des poignées et redescends bras tendus.'),
+  ex('lat_pulldown', 'Tirage vertical poulie haute', ['Pull Vertical'], 'cable', ['lats'], ['biceps', 'upper_back'],
+    'Cuisses calées, buste légèrement en arrière. Tire la barre vers le haut de la poitrine et remonte bras tendus.'),
+  ex('single_arm_pulldown', 'Tirage unilatéral', ['Pull Vertical'], 'cable', ['lats'], ['biceps'],
+    'Un bras à la fois, coude qui descend vers la hanche. Remonte en laissant le bras s’étirer.', { perSide: true }),
+  // Assistance push
+  ex('lateral_raise', 'Élévations latérales', ['Assistance push'], 'dumbbell', ['side_delts'], [],
+    'Bras presque tendus, monte les haltères sur les côtés jusqu’à hauteur d’épaules sans élan, puis contrôle la descente.', { calibrationSafe: true }),
+  ex('overhead_triceps', 'Triceps nuque', ['Assistance push'], 'dumbbell', ['triceps'], [],
+    'Haltère tenu à deux mains derrière la tête, coudes vers le plafond. Tends les bras sans écarter les coudes.', { calibrationSafe: true }),
+  ex('cable_triceps', 'Extension triceps poulie', ['Assistance push'], 'cable', ['triceps'], [],
+    'Coudes collés au corps. Tends les bras vers le bas et remonte en contrôle sans bouger les coudes.', { calibrationSafe: true }),
+  // Assistance pull
+  ex('biceps_curl', 'Curl biceps', ['Assistance pull'], 'dumbbell', ['biceps'], ['forearms'],
+    'Coudes fixes le long du corps. Monte les haltères sans balancer le buste et contrôle la descente.', { calibrationSafe: true }),
+  ex('hammer_curl', 'Curl marteau', ['Assistance pull'], 'dumbbell', ['biceps', 'forearms'], [],
+    'Paumes face à face, coudes fixes. Monte les haltères sans élan et contrôle la descente.', { calibrationSafe: true }),
+  ex('rear_delt', 'Rear delt', ['Assistance pull'], 'machine', ['rear_delts'], ['upper_back'],
+    'Bras presque tendus, écarte vers l’arrière en menant avec les coudes, sans hausser les épaules.', { calibrationSafe: true }),
+  ex('face_pull', 'Face pull', ['Assistance pull'], 'cable', ['rear_delts', 'upper_back'], [],
+    'Corde à hauteur du visage. Tire vers le front en écartant les mains, coudes hauts.', { calibrationSafe: true }),
+  ex('back_extension', 'Lombaires (extension au banc)', ['Assistance pull'], 'bodyweight', ['lower_back'], ['glutes', 'hamstrings'],
+    'Bassin calé sur le support. Descends le buste en contrôle et remonte jusqu’à l’alignement du corps, sans hyperextension.', { noE1rm: true }),
+  // Assistance legs
+  ex('standing_calf', 'Mollets debout', ['Assistance legs'], 'machine', ['calves'], [],
+    'Avant des pieds sur la marche, jambes tendues. Descends talons bas en étirement, puis monte au maximum sur la pointe des pieds.', { calibrationSafe: true }),
+  ex('seated_calf', 'Mollets assis', ['Assistance legs'], 'machine', ['calves'], [],
+    'Genoux calés sous l’appui. Descends talons bas, puis monte au maximum en contrôle.', { calibrationSafe: true }),
+  // Power
+  ex('box_jump', 'Box jump', ['Puissance'], 'none', ['quads', 'glutes'], ['calves'],
+    'Saute sur la box avec un élan de bras, réception souple et silencieuse. Redescends en marchant.'),
+  ex('broad_jump', 'Saut en longueur sans élan', ['Puissance'], 'none', ['quads', 'glutes'], ['calves', 'hamstrings'],
+    'Pieds parallèles, élan de bras puis saut le plus loin possible. Réception stable, genoux dans l’axe.'),
+  ex('medball_throw', 'Lancer médecine-ball', ['Puissance'], 'medball', ['chest', 'core'], ['front_delts', 'triceps'],
+    'Lance le ballon le plus fort possible contre un mur ou au sol en engageant les jambes et le tronc. Récupère et replace-toi.'),
+  ex('kb_swing', 'Kettlebell swing', ['Puissance'], 'kettlebell', ['glutes', 'hamstrings'], ['lower_back', 'core', 'forearms'],
+    'Charnière de hanche, dos neutre. Projette la kettlebell par une extension explosive des hanches, bras relâchés.'),
+  // Core and carries
+  ex('farmer_walk', 'Farmer walk', ['Gainage'], 'dumbbell', ['forearms', 'core'], ['upper_back'],
+    'Un haltère lourd dans chaque main, épaules basses, buste droit. Marche à petits pas réguliers.', { unit: 'distance' }),
+  ex('suitcase_carry', 'Suitcase carry', ['Gainage'], 'dumbbell', ['core', 'forearms'], [],
+    'Un haltère d’un seul côté, buste droit sans pencher. Marche à petits pas réguliers, puis change de côté.', { unit: 'distance', perSide: true }),
+  ex('pallof_press', 'Pallof press', ['Gainage'], 'cable', ['core'], [],
+    'De profil à la poulie, mains contre la poitrine. Tends les bras devant toi sans laisser le buste tourner, puis reviens.', { perSide: true }),
+  ex('ab_wheel', 'Roue abdominale', ['Gainage'], 'none', ['core'], [],
+    'À genoux, roule vers l’avant en gardant le dos neutre, puis reviens en contractant les abdos.', { noE1rm: true }),
+];
+
+const P = { sets: 3, reps: [3, 5], rir: null, rest: 90, coef: null };
+const F = { sets: 3, reps: null, rir: null, rest: 90, coef: null };
+const TOP = { reps: [3, 5], rir: [2, 2], rest: 150 };
+
+export const SEED_PROGRAM = {
+  id: 'default',
+  name: 'Programme athlétique',
+  superset: { shortRest: 20, longRest: 90, longRestT1: 150 },
+  blocks: [
+    {
+      id: 'b1', name: 'Force', short: 'Force', type: 'force', reference: true,
+      tiers: {
+        P,
+        T1: { sets: 3, reps: [4, 8], rir: [2, 3], rest: 150, coef: 1 },
+        T2: { sets: 3, reps: [8, 12], rir: [1, 2], rest: 120, coef: 1 },
+        T3: { sets: 3, reps: [8, 12], rir: [0, 1], rest: 90, coef: 1 },
+        F,
+      },
+    },
+    {
+      id: 'b2', name: 'Hypertrophie', short: 'Hypertrophie', type: 'hypertrophy', reference: false,
+      tiers: {
+        P,
+        T1: { sets: 3, reps: [8, 12], rir: [1, 2], rest: 120, coef: 0.8, topSet: TOP, setsWithoutTopSet: 4 },
+        T2: { sets: 4, reps: [10, 15], rir: [1, 2], rest: 90, coef: 0.75 },
+        T3: { sets: 3, reps: [12, 20], rir: [0, 1], rest: 90, coef: 0.75 },
+        F,
+      },
+    },
+    {
+      id: 'b3', name: 'Hypertrophie haute rép.', short: 'Haute rép.', type: 'high_rep', reference: false,
+      tiers: {
+        P,
+        T1: { sets: 3, reps: [10, 15], rir: [1, 2], rest: 120, coef: 0.7, topSet: TOP, setsWithoutTopSet: 4 },
+        T2: { sets: 3, reps: [12, 20], rir: [1, 1], rest: 90, coef: 0.7 },
+        T3: { sets: 3, reps: [15, 20], rir: [0, 0], rest: 90, coef: 0.7 },
+        F,
+      },
+    },
+  ],
+  sessionTypes: [
+    {
+      id: 'A', name: 'Séance A',
+      slots: [
+        { id: 'A1', pattern: 'Puissance', tier: 'P', exerciseId: 'box_jump', group: null },
+        { id: 'A2', pattern: 'Legs bilateral', tier: 'T1', exerciseId: 'squat', group: null },
+        { id: 'A3a', pattern: 'Pull Vertical', tier: 'T1', exerciseId: 'pull_up', group: 'A3' },
+        { id: 'A3b', pattern: 'Push Horizontal', tier: 'T1', exerciseId: 'bench', group: 'A3' },
+        { id: 'A4a', pattern: 'Legs unilateral', tier: 'T2', exerciseId: 'walking_lunge', group: 'A4' },
+        { id: 'A4b', pattern: 'Pull Horizontal', tier: 'T2', exerciseId: 'australian_pull', group: 'A4' },
+        {
+          id: 'A5a', pattern: 'Legs postérieur', tier: 'T3', exerciseId: 'nordic_curl', group: 'A5',
+          params: { sets: 2, reps: [4, 6], rir: null, note: 'Descente la plus lente et contrôlée possible. Progression par les reps, puis par la réduction de l’assistance.' },
+        },
+        { id: 'A5b', pattern: 'Assistance pull', tier: 'T3', exerciseId: 'biceps_curl', group: 'A5' },
+        { id: 'A6a', pattern: 'Assistance push', tier: 'T3', exerciseId: 'lateral_raise', group: 'A6' },
+        { id: 'A6b', pattern: 'Gainage', tier: 'F', exerciseId: 'farmer_walk', group: 'A6', params: { sets: 3, reps: [30, 30], note: 'Charge lourde.' } },
+      ],
+    },
+    {
+      id: 'B', name: 'Séance B',
+      slots: [
+        { id: 'B1', pattern: 'Puissance', tier: 'P', exerciseId: 'medball_throw', group: null },
+        { id: 'B2', pattern: 'Legs unilateral', tier: 'T1', exerciseId: 'bulgarian_split_squat', group: null },
+        { id: 'B3a', pattern: 'Pull Horizontal', tier: 'T1', exerciseId: 'chest_supported_row', group: 'B3' },
+        { id: 'B3b', pattern: 'Push Vertical', tier: 'T1', exerciseId: 'overhead_press', group: 'B3' },
+        { id: 'B4a', pattern: 'Pull Vertical', tier: 'T2', exerciseId: 'lat_pulldown', group: 'B4' },
+        { id: 'B4b', pattern: 'Push Horizontal', tier: 'T2', exerciseId: 'incline_bench_barbell', group: 'B4' },
+        { id: 'B5a', pattern: 'Legs postérieur', tier: 'T3', exerciseId: 'leg_curl', group: 'B5' },
+        { id: 'B5b', pattern: 'Assistance legs', tier: 'T3', exerciseId: 'standing_calf', group: 'B5' },
+        { id: 'B6', pattern: 'Assistance pull', tier: 'T3', exerciseId: 'back_extension', group: null },
+      ],
+    },
+    {
+      id: 'C', name: 'Séance C',
+      slots: [
+        { id: 'C1', pattern: 'Puissance', tier: 'P', exerciseId: 'broad_jump', group: null },
+        { id: 'C2', pattern: 'Legs postérieur', tier: 'T1', exerciseId: 'romanian_deadlift', group: null },
+        { id: 'C3a', pattern: 'Push Vertical', tier: 'T1', exerciseId: 'seated_db_press', group: 'C3' },
+        { id: 'C3b', pattern: 'Pull Horizontal', tier: 'T1', exerciseId: 'one_arm_db_row', group: 'C3' },
+        { id: 'C4a', pattern: 'Push Horizontal', tier: 'T2', exerciseId: 'db_bench', group: 'C4' },
+        { id: 'C4b', pattern: 'Legs bilateral', tier: 'T2', exerciseId: 'hack_squat', group: 'C4' },
+        { id: 'C5a', pattern: 'Assistance pull', tier: 'T3', exerciseId: 'rear_delt', group: 'C5' },
+        { id: 'C5b', pattern: 'Assistance push', tier: 'T3', exerciseId: 'overhead_triceps', group: 'C5' },
+        { id: 'C6a', pattern: 'Assistance push', tier: 'T3', exerciseId: 'lateral_raise', group: 'C6' },
+        { id: 'C6b', pattern: 'Assistance legs', tier: 'T3', exerciseId: 'seated_calf', group: 'C6' },
+        { id: 'C7', pattern: 'Gainage', tier: 'F', exerciseId: 'pallof_press', group: null, params: { sets: 3, reps: [10, 10], rest: 60 } },
+      ],
+    },
+  ],
+  rotation: [
+    { blockId: 'b1', sessionTypeId: 'A' },
+    { blockId: 'b1', sessionTypeId: 'B' },
+    { blockId: 'b1', sessionTypeId: 'C' },
+    { blockId: 'b2', sessionTypeId: 'C' },
+    { blockId: 'b2', sessionTypeId: 'A' },
+    { blockId: 'b2', sessionTypeId: 'B' },
+    { blockId: 'b3', sessionTypeId: 'B' },
+    { blockId: 'b3', sessionTypeId: 'C' },
+    { blockId: 'b3', sessionTypeId: 'A' },
+  ],
+};
+
+/** Correspondence rules (estimates, editable). Used from V2. */
+export const SEED_CORRESPONDENCES = [
+  { id: 'db_bench<-bench', target: 'db_bench', reference: 'bench', ratio: 0.4, perDumbbell: true },
+  { id: 'incline_bench_barbell<-bench', target: 'incline_bench_barbell', reference: 'bench', ratio: 0.8, perDumbbell: false },
+  { id: 'incline_bench_db<-bench', target: 'incline_bench_db', reference: 'bench', ratio: 0.32, perDumbbell: true },
+  { id: 'front_squat<-squat', target: 'front_squat', reference: 'squat', ratio: 0.85, perDumbbell: false },
+  { id: 'seated_db_press<-overhead_press', target: 'seated_db_press', reference: 'overhead_press', ratio: 0.4, perDumbbell: true },
+  { id: 'chest_supported_row<-barbell_row', target: 'chest_supported_row', reference: 'barbell_row', ratio: 0.85, perDumbbell: false },
+  { id: 'one_arm_db_row<-barbell_row', target: 'one_arm_db_row', reference: 'barbell_row', ratio: 0.45, perDumbbell: true },
+  { id: 'trap_bar_deadlift<-romanian_deadlift', target: 'trap_bar_deadlift', reference: 'romanian_deadlift', ratio: 1.25, perDumbbell: false },
+];
+
+export const DEFAULT_SETTINGS = {
+  firstName: '',
+  rirDisplay: 'rir', // 'rir' | 'rpe'
+  wakeLock: true,
+  vibration: true,
+  repeatPartial: false,
+  largeText: false,
+  equipment: {
+    steps: { barbell: 2.5, dumbbell: 2, machine: 5, cable: 5, weighted_bodyweight: 2.5, bodyweight: 2.5, medball: 1 },
+    kettlebells: [4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48],
+    barWeight: 20,
+  },
+  exerciseCardOpen: true,
+  cycleRotations: 4,
+};
